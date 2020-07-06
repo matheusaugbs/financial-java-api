@@ -1,6 +1,5 @@
 package io.github.matheusaugbs.financialjavaapi.model;
 
-import io.github.matheusaugbs.financialjavaapi.constant.TransactionTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

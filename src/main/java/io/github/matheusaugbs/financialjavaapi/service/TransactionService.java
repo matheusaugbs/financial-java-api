@@ -1,10 +1,10 @@
 package io.github.matheusaugbs.financialjavaapi.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.matheusaugbs.financialjavaapi.constant.TransactionTypeEnum;
 import io.github.matheusaugbs.financialjavaapi.factory.TransactionFactory;
 import io.github.matheusaugbs.financialjavaapi.factory.impl.TransactionFactoryImpl;
 import io.github.matheusaugbs.financialjavaapi.model.Transaction;
+import io.github.matheusaugbs.financialjavaapi.model.TransactionTypeEnum;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +79,11 @@ public class TransactionService {
         transaction.setId(parseId(jsonTransaction));
         setTransactionValues(jsonTransaction, transaction);
 
+        return transaction;
+    }
+
+    public Transaction update(Transaction transaction, JSONObject jsonTransaction) {
+        setTransactionValues(jsonTransaction, transaction);
         return transaction;
     }
 
