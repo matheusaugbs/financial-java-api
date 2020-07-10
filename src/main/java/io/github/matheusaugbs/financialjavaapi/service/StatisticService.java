@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 
 public class StatisticService {
-
     public Statistic create(List<Transaction> transactions) {
 
         var statistics = new Statistic();

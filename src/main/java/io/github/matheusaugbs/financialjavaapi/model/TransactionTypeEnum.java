@@ -1,7 +1,6 @@
 package io.github.matheusaugbs.financialjavaapi.model;
 
 public enum TransactionTypeEnum {
-
     CARD("CARD"), MONEY("MONEY");
 
     private String value;

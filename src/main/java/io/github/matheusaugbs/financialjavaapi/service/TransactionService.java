@@ -1,8 +1,6 @@
 package io.github.matheusaugbs.financialjavaapi.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.matheusaugbs.financialjavaapi.factory.TransactionFactory;
-import io.github.matheusaugbs.financialjavaapi.factory.impl.TransactionFactoryImpl;
 import io.github.matheusaugbs.financialjavaapi.model.Transaction;
 import io.github.matheusaugbs.financialjavaapi.model.TransactionTypeEnum;
 import org.json.JSONObject;
@@ -19,15 +17,7 @@ import java.util.stream.Collectors;
 @Service
 
 public class TransactionService {
-
-    private TransactionFactory factory;
     private List<Transaction> transactions;
-
-    public void createTransactionFactory() {
-        if (factory == null) {
-            factory = new TransactionFactoryImpl();
-        }
-    }
 
     public void createTransactionList() {
         if (transactions == null) {
@@ -61,7 +51,6 @@ public class TransactionService {
     }
 
     private void setTransactionValues(JSONObject jsonTransaction, Transaction transaction) {
-
         String authorizationNumber = (String) jsonTransaction.get("authorizationNumber");
         String nsu = (String) jsonTransaction.get("nsu");
 
@@ -69,17 +58,6 @@ public class TransactionService {
         transaction.setTransactionDate(jsonTransaction.get("transactionDate") != null ? parseTransactionDate(jsonTransaction) : transaction.getTransactionDate());
         transaction.setAuthorizationNumber(TransactionTypeEnum.CARD == transaction.getType() ? authorizationNumber : null);
         transaction.setNsu(nsu != null ? nsu : transaction.getNsu());
-    }
-
-    public Transaction create(JSONObject jsonTransaction) {
-
-        createTransactionFactory();
-
-        Transaction transaction = factory.createTransaction((String) jsonTransaction.get("type"));
-        transaction.setId(parseId(jsonTransaction));
-        setTransactionValues(jsonTransaction, transaction);
-
-        return transaction;
     }
 
     public Transaction update(Transaction transaction, JSONObject jsonTransaction) {
@@ -107,6 +85,5 @@ public class TransactionService {
 
     public void clearObjects() {
         transactions = null;
-        factory = null;
     }
 }

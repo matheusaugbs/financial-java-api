@@ -12,15 +12,10 @@ import java.time.LocalDateTime;
 @Data
 
 public class Transaction {
-
     private Long id;
     private String nsu;
     private String authorizationNumber;
     private LocalDateTime transactionDate;
     private BigDecimal amount;
     private TransactionTypeEnum type;
-
-    public Transaction(TransactionTypeEnum type) {
-        this.type = type;
-    }
 }

@@ -1,6 +1,7 @@
 package io.github.matheusaugbs.financialjavaapi.controller;
 
 import io.github.matheusaugbs.financialjavaapi.model.Transaction;
+import io.github.matheusaugbs.financialjavaapi.model.response.BaseResponse;
 import io.github.matheusaugbs.financialjavaapi.service.TransactionService;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -15,7 +16,6 @@ import java.util.List;
 @RestController
 
 public class TransactionController {
-
     private static final Logger logger = Logger.getLogger(TransactionController.class);
 
     @Autowired
@@ -43,18 +43,17 @@ public class TransactionController {
 
     @PostMapping(path = "/transactions")
     @ResponseBody
-    public ResponseEntity<Transaction> create(@RequestBody JSONObject transaction) {
+    public ResponseEntity<BaseResponse> create(@RequestBody Transaction transaction) {
         try {
-            if (transactionService.isJSONValid(transaction.toString())) {
-                Transaction transactionCreated = transactionService.create(transaction);
-                var uri = ServletUriComponentsBuilder.fromCurrentRequest().path(transactionCreated.getNsu()).build().toUri();
+            if (transaction != null) {
+                var uri = ServletUriComponentsBuilder.fromCurrentRequest().path(transaction.getNsu()).build().toUri();
 
-                if (transactionService.isTransactionInFuture(transactionCreated)) {
+                if (transactionService.isTransactionInFuture(transaction)) {
                     logger.error("The transaction date is in the future.");
-                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
+                    return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new BaseResponse(2, "Data de transação inválida."));
                 } else {
-                    transactionService.add(transactionCreated);
-                    return ResponseEntity.created(uri).body(null);
+                    transactionService.add(transaction);
+                    return ResponseEntity.created(uri).body(new BaseResponse(1, "Transação criada com sucesso!"));
                 }
             } else {
                 return ResponseEntity.badRequest().body(null);

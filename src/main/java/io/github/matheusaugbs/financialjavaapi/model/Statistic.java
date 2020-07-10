@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Data
 
 public class Statistic {
-
     private BigDecimal sum;
     private BigDecimal avg;
     private BigDecimal max;
